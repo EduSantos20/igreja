@@ -6,6 +6,9 @@ import com.edusantos.igreja.repository.ChurchRepository;
 import com.edusantos.igreja.repository.MemberRepository;
 import com.edusantos.igreja.service.execeptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,6 +35,7 @@ public class MemberService {
         return objetc.get();
     }
 
+    @Transactional
     public Member createMember(Long churchId, Member member){
         try{
             Church churchEntity = churchRepository.findById(churchId).get();
@@ -44,6 +48,7 @@ public class MemberService {
         }
     }
 
+    @Transactional
     public Member updateMember(Long id, Long churchId, Member object){
         try {
             Church churchEntity = churchRepository.findById(churchId).get();
@@ -66,6 +71,18 @@ public class MemberService {
             return memberRepository.save(entity);
         }catch (EntityNotFoundException e){
             throw new ResourceNotFoundException(id);
+        }
+    }
+
+    @Transactional
+    public void delete(Long id){
+        try{
+            memberRepository.deleteById(id);
+
+        }catch (EmptyResultDataAccessException e){
+            throw new ResourceNotFoundException(id);
+        }catch (DataIntegrityViolationException e){
+            throw new DataIntegrityViolationException(e.getMessage());
         }
     }
 }
