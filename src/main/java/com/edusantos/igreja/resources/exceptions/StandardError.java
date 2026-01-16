@@ -13,6 +13,7 @@ import java.util.Objects;
 @NoArgsConstructor
 
 // classe para fornecer erro padronizado, o tempo do erro, o ststus dele, qual erro é, a mensagem, o caminho
+// a classe ResouceException é continuação
 
 public class StandardError implements Serializable {
 
