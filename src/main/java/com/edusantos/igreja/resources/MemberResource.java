@@ -33,11 +33,13 @@ public class MemberResource {
         return ResponseEntity.ok().body(object);
     }
 
-    @PostMapping(value = "/churches/{churchid}")
+    @PostMapping(value = "/churches/{churchId}")
     public ResponseEntity<Member> insert(@PathVariable Long churchId, @RequestBody Member object){
         object = memberService.createMember(churchId, object);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(object.getId()).toUri();
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{id}")
+                .buildAndExpand(object.getId())
+                .toUri();
         return ResponseEntity.created(uri).body(object);
 
     }
