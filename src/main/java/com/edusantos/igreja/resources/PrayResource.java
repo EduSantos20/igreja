@@ -33,11 +33,10 @@ public class PrayResource {
     }
 
     @PostMapping
-    public ResponseEntity<Pray> insert(@PathVariable Pray object){
+    public ResponseEntity<Pray> insert(@RequestBody Pray object){
         object = prayService.insert(object);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(object.getId()).toUri();
-
         return ResponseEntity.created(uri).body(object);
     }
 
